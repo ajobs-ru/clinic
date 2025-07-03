@@ -22,6 +22,10 @@ jobs:
     - name: Start services
       run: docker compose up -d --build
 
+    - name: Wait for database to be ready
+      run: |
+        timeout 60s bash -c 'until docker compose exec db pg_isready -U postgres; do sleep 2; done'
+
     - name: Run migrations
       run: docker compose run --rm clinic alembic upgrade head
 
