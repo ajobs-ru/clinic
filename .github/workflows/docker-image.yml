@@ -7,24 +7,29 @@ on:
     branches: [ "master" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag clinic:$(date +%s)
+      run: docker build . --file Dockerfile --tag clinic:latest
 
     - name: Copy .env.example to .env
       run: cp .env.example .env
 
+    - name: Start services
+      run: docker compose -f docker-compose.yml -f docker-compose.ci.yml up -d --build
+
+    - name: Wait for DB
+      run: docker compose run --rm clinic wait-for-it db:5432 -t 30
+
     - name: Run migrations
-      run: docker compose -f docker-compose.yml -f docker-compose.ci.yml run --rm clinic alembic upgrade head
+      run: docker compose run --rm clinic alembic upgrade head
 
     - name: Run lint
-      run: docker compose -f docker-compose.yml -f docker-compose.ci.yml run --rm clinic flake8
+      run: docker compose run --rm clinic flake8
 
     - name: Run tests
-      run: docker compose -f docker-compose.yml -f docker-compose.ci.yml run --rm clinic pytest
+      run: docker compose run --rm clinic pytest
