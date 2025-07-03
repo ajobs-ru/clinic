@@ -20,6 +20,9 @@ jobs:
     - name: Copy .env.example to .env
       run: cp .env.example .env
 
+    - name: Run migrations
+      run: docker compose -f docker-compose.yml -f docker-compose.ci.yml run --rm clinic alembic upgrade head
+
     - name: Run lint
       run: docker compose -f docker-compose.yml -f docker-compose.ci.yml run --rm clinic flake8
 
