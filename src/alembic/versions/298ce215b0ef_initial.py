@@ -51,11 +51,7 @@ def upgrade() -> None:
         sa.Column("doctor_id", sa.BigInteger(), nullable=False),
         sa.Column("patient_name", sa.String(), nullable=False),
         sa.Column("patient_phone", sa.String(), nullable=True),
-        sa.Column(
-            "appointment_date",
-            sa.DateTime(timezone=True),
-            nullable=False
-        ),
+        sa.Column("appointment_date", sa.DateTime(timezone=True), nullable=False),
         sa.Column(
             "created_at",
             sa.DateTime(timezone=True),

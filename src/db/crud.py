@@ -11,16 +11,9 @@ from schemas.doctor import Doctor as DoctorSchema
 from .models import Appointment, Doctor
 
 engine = create_async_engine(
-    DB_URL,
-    pool_pre_ping=True,
-    pool_recycle=3600,
-    pool_size=10,
-    max_overflow=50
+    DB_URL, pool_pre_ping=True, pool_recycle=3600, pool_size=10, max_overflow=50
 )
-async_session = sessionmaker(
-    bind=engine,
-    class_=AsyncSession,
-    expire_on_commit=False)
+async_session = sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
 
 
 # Doctor methods

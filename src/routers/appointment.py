@@ -14,19 +14,12 @@ async def appointments_router(request: Request):
 
 
 @router.get(
-    "/appointment/{appointment_id}",
-    response_model=Union[AppointmentWithDoctor, None]
+    "/appointment/{appointment_id}", response_model=Union[AppointmentWithDoctor, None]
 )
 async def appointment_router(request: Request, appointment_id: int):
     return await crud.get_appointment(appointment_id)
 
 
-@router.post(
-    "/appointments/create",
-    response_model=AppointmentWithDoctor
-)
-async def appointment_create_router(
-    request: Request,
-    appointment: Appointment
-):
+@router.post("/appointments/create", response_model=AppointmentWithDoctor)
+async def appointment_create_router(request: Request, appointment: Appointment):
     return await crud.create_appointment(appointment)
