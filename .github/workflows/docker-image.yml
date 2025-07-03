@@ -23,7 +23,7 @@ jobs:
       run: docker compose up -d --build
 
     - name: Run migrations
-      run: docker compose run --rm clinic alembic upgrade head
+      run: docker compose run -e DB_PORT=54321 --rm clinic alembic upgrade head
 
     - name: Run lint
       run: docker compose run --rm clinic flake8
