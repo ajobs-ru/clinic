@@ -5,6 +5,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y curl
 
 COPY requirements.txt requirements.txt
+COPY .flake8 .flake8
 
 RUN ["pip", "install", "-r", "requirements.txt"]
 
