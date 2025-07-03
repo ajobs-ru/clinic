@@ -1,0 +1,7 @@
+services:
+    clinic:
+        ports:
+            []
+    db:
+        ports:
+            []
