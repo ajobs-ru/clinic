@@ -5,3 +5,9 @@ lint:
 
 test:
 	docker compose run --rm clinic pytest
+
+up:
+	docker compose up -d --build
+
+down:
+	docker compose down
