@@ -1,0 +1,31 @@
+services:
+    clinic:
+        build: .
+        restart: always
+        env_file: .env
+        ports:
+            - "${APP_PORT}:8000"
+        stop_signal: SIGINT
+        depends_on:
+            - db
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://127.0.0.1:${APP_PORT}/health"]
+            interval: 30s
+            timeout: 5s
+            retries: 3
+            start_period: 10s
+    db:
+        image: postgres:16
+        restart: always
+        env_file: .env
+        environment:
+            POSTGRES_USER: ${DB_USER}
+            POSTGRES_PASSWORD: ${DB_PASS}
+            POSTGRES_DB: ${DB_NAME}
+        ports:
+            - "${DB_EXTERNAL_PORT}:${DB_PORT}"
+        volumes:
+            - clinic-database:/var/lib/postgresql/data
+
+volumes:
+    clinic-database:
