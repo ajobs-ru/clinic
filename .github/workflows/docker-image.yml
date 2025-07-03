@@ -22,9 +22,6 @@ jobs:
     - name: Start services
       run: docker compose -f docker-compose.yml -f docker-compose.ci.yml up -d --build
 
-    - name: Wait for DB
-      run: docker compose run --rm clinic wait-for-it db:5432 -t 30
-
     - name: Run migrations
       run: docker compose run --rm clinic alembic upgrade head
 
