@@ -32,7 +32,9 @@ async def get(key):
 def cache(prefix, ttl=600):
     def decorator(func):
         async def wrapper(*args, **kwargs):
-            cache_key = f"{prefix}:{func.__name__}:{hashlib.md5(json.dumps([args, kwargs], sort_keys=True).encode()).hexdigest()}"
+            to_hash = json.dumps([args, kwargs], sort_keys=True).encode()
+            digests = hashlib.md5(to_hash).hexdigest()
+            cache_key = f"{prefix}:{func.__name__}:{digests}"
 
             cached_result = await redis.get(cache_key)
             if cached_result:
