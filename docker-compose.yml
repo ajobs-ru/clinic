@@ -23,7 +23,7 @@ services:
             POSTGRES_PASSWORD: ${DB_PASS}
             POSTGRES_DB: ${DB_NAME}
         ports:
-            - "${DB_EXTERNAL_PORT}:${DB_PORT}"
+            - "${DB_PORT}:${DB_PORT}"
         volumes:
             - clinic-database:/var/lib/postgresql/data
 
